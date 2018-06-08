@@ -50,4 +50,9 @@ public class GatewayController {
 		return currentDevices;
 	}
 
+	@RequestMapping(value = "/addDevice", method = RequestMethod.POST)
+	public Gateway addDevice(List<Devices> devices, Gateway gateway) {
+		gateway.addDevicesToGateway(devices, gateway);
+		return gateway;
+	}
 }
