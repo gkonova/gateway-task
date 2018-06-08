@@ -1,4 +1,3 @@
-package database;
 
 import java.util.Date;
 
@@ -16,6 +15,8 @@ public class Devices {
 	private Date dateCreated;
 	
 	private boolean status;
+	
+	private Integer relatedGatewayUid;
 
 	public Integer getUid() {
 		return uid;
@@ -48,4 +49,13 @@ public class Devices {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	
+	public Integer getRelatedGatewayUid() {
+		return relatedGatewayUid;
+	}
+
+	public void setRelatedGatewayUid(Integer relatedGatewayUid) {
+		this.relatedGatewayUid = relatedGatewayUid;
+	}
+	
 }

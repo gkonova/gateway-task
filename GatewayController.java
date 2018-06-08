@@ -1,6 +1,10 @@
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/payment")
@@ -11,14 +15,14 @@ public class GatewayController {
 	private static final String ERROR_STATUS = "error";
 	private static final int CODE_SUCCESS = 100;
 	private static final int AUTH_FAILURE = 102;
-	private static final String VALIDATION_ERROR_MESSAGE = "data is not valid";
+	private static final String VALIDATION_ERROR_MESSAGE = "ata is not valid";
 
 	@RequestMapping(value = "/info", method = RequestMethod.POST)
 	public Gateway informationForGateway(@RequestParam(value = "uid") String uid,
 			@RequestBody Gateway gatewayInformation) {
 		BaseResponse response = new BaseResponse();
 		if (sharedKey.equalsIgnoreCase(uid)) {
-			int ip = gatewayInformation.getIp();
+			int ip = gatewayInformation.getUid();
 			String name = gatewayInformation.getReadableName();
 			List<Devices> devices = gatewayInformation.getDevices();
 			response.setStatus(SUCCESS_STATUS);
@@ -27,21 +31,20 @@ public class GatewayController {
 			response.setStatus(ERROR_STATUS);
 			response.setCode(AUTH_FAILURE);
 		}
-		return response;
+		return gatewayInformation;
 	}
 
-	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
-	public List<Gateway> returnAllGeteways() {
-
-	}
+//	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
+//	public List<Gateway> returnAllGeteways() {
+//		
+//	}
 
 	@RequestMapping(value = "/removeDevice", method = RequestMethod.POST)
-	public List<Devices> removeDevice(Devices device, Gateway gateway) {
-		List<Devices> currentDevices = geteway.getDevicesForId(gateway.getIp());
-
+	public List<Devices> removeDevice(Devices device, Integer gatewayUid, Gateway gateway) {
+		List<Devices> currentDevices = gateway.getDevicesForId(gatewayUid);
 		for (Devices d : currentDevices) {
 			if (d.getUid() == device.getUid()) {
-				currentDevices.remove(d.getUid());
+				currentDevices.remove(d);
 			}
 		}
 		return currentDevices;
